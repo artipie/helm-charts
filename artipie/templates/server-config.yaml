@@ -8,8 +8,11 @@ data:
   artipie.yml: |-
     meta:
       storage:
-        type: fs
-        path: /var/artipie/repo
+        type: etcd
+        connection:
+          endpoints:
+            - "http://artipie-etcd-headless:2379"
+          password: {{ .Values.etcd.auth.rbac.rootPassword | b64enc | quote }}
       credentials:
         type: file
         path: _credentials.yaml

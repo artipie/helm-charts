@@ -33,6 +33,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: "ARTIPIE_INIT"
+              value: "true"
           ports:
             - name: http
               containerPort: 8080
@@ -47,13 +50,10 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          {{- if .Values.artipie.customConfig }}
           volumeMounts:
             - name: artipie-config
               mountPath: "/etc/artipie"
               readOnly: true
-          {{- end }}
-      {{- if .Values.artipie.customConfig }}
       volumes:
         - name: artipie-config
           configMap:
@@ -61,7 +61,6 @@ spec:
             items:
               - key: "artipie.yml"
                 path: "artipie.yml"
-      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
