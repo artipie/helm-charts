@@ -13,7 +13,7 @@ artipie:
 image:
   repository: artipie/artipie
   pullPolicy: IfNotPresent
-  tag: "v0.22"
+  tag: "v1.17.9"
 
 imagePullSecrets: []
 nameOverride: ""
